@@ -225,17 +225,24 @@ const HEADERS = Object.freeze({
   ],
 
   LOGS: [
+  "Timestamp",
+  "Level",
+  "Module",
+  "Action",
+  "Details"
+],
 
-    "Timestamp",
+TEMPLATES: [
+  "Template ID",
+  "Template Name",
+  "Subject",
+  "Body",
+  "Created"
+],
 
-    "Level",
-
-    "Module",
-
-    "Action",
-
-    "Details"
-
-  ]
+STATS: [
+  "Metric",
+  "Value"
+]
 
 });
