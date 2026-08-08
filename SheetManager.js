@@ -131,6 +131,8 @@ function seedSenders() {
 
     sender.dailyLimit,
 
+    sender.sentToday,
+
     sender.timezone,
 
     sender.signature

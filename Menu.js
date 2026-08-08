@@ -9,17 +9,24 @@ function onOpen() {
 
   SpreadsheetApp.getUi()
 
-    .createMenu("Aksharify MailFlow")
+    .createMenu("MailFlow")
 
-    .addItem("Initialize System", "initializeSystem")
+    .addItem(
+      "Run Scheduler",
+      "runScheduler"
+    )
+
+    .addItem(
+      "Refresh Dashboard",
+      "refreshDashboard"
+    )
 
     .addSeparator()
 
-    .addItem("Dashboard", "goToDashboard")
-
-    .addSeparator()
-
-    .addItem("Settings", "goToSettings")
+    .addItem(
+      "Check Replies",
+      "checkReplies"
+    )
 
     .addToUi();
 

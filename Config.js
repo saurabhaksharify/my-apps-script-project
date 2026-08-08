@@ -107,9 +107,12 @@ const DEFAULT_SENDERS = Object.freeze([
 
     dailyLimit: 40,
 
+    sentToday: 0,
+
     timezone: APP.TIMEZONE,
 
     signature: "Regards,<br>Luv Sharma<br>Aksharify"
+
 
   },
 
@@ -124,6 +127,8 @@ const DEFAULT_SENDERS = Object.freeze([
     status: SENDER_STATUS.ACTIVE,
 
     dailyLimit: 40,
+
+    sentToday: 0,
 
     timezone: APP.TIMEZONE,
 
@@ -170,11 +175,11 @@ const HEADERS = Object.freeze({
 
     "Last Email Date",
 
-    "Follow-up 1",
+    "Follow-up Count",
 
-    "Follow-up 2",
+    "Next Follow-up Date",
 
-    "Follow-up 3",
+    "Thread ID",
 
     "Reply Date",
 
@@ -193,6 +198,8 @@ const HEADERS = Object.freeze({
     "Status",
 
     "Daily Limit",
+
+    "Sent Today",
 
     "Timezone",
 
@@ -234,10 +241,11 @@ const HEADERS = Object.freeze({
 
 TEMPLATES: [
   "Template ID",
-  "Template Name",
+  "Campaign ID",
+  "Stage",
   "Subject",
   "Body",
-  "Created"
+  "Active"
 ],
 
 STATS: [
