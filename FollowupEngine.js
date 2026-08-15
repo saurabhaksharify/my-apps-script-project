@@ -56,48 +56,59 @@ function sendFollowup(row, lead) {
 
   const threadId = lead[16];
 
-if (threadId) {
+  if (!threadId)
+    throw new Error("No Thread ID found for follow-up.");
 
   const thread = GmailApp.getThreadById(threadId);
 
-  if (thread) {
+  if (!thread)
+    throw new Error("Thread not found: " + threadId);
 
-    thread.reply("", {
-      htmlBody: email.body
-    });
+  const messages = thread.getMessages();
+  const lastMessage = messages[messages.length - 1];
 
-  } else {
+  const subject = lastMessage.getSubject();
+  const messageId = lastMessage.getHeader("Message-ID");
+  const references = lastMessage.getHeader("References");
 
-    GmailApp.sendEmail(
-      lead[4],
-      email.subject,
-      "",
-      {
-        htmlBody: email.body
-      }
+  let raw =
+    "To: " + lead[4] + "\r\n" +
+    "Subject: " + subject + "\r\n";
+
+  if (messageId)
+    raw += "In-Reply-To: " + messageId + "\r\n";
+
+  if (references)
+    raw += "References: " + references + " " + messageId + "\r\n";
+  else if (messageId)
+    raw += "References: " + messageId + "\r\n";
+
+  raw +=
+    "Content-Type: text/html; charset=UTF-8\r\n" +
+    "MIME-Version: 1.0\r\n" +
+    "\r\n" +
+    email.body;
+
+  const encodedMessage =
+    Utilities.base64EncodeWebSafe(
+      raw,
+      Utilities.Charset.UTF_8
     );
 
-  }
-
-} else {
-
-  GmailApp.sendEmail(
-    lead[4],
-    email.subject,
-    "",
+  Gmail.Users.Messages.send(
     {
-      htmlBody: email.body
-    }
+      raw: encodedMessage,
+      threadId: threadId
+    },
+    "me"
   );
-
-}
 
   const sheet = getLeadsSheet();
 
-  sheet.getRange(row,14)
+  sheet.getRange(row, 14)
     .setValue(new Date());
 
-  sheet.getRange(row,15)
+  sheet.getRange(row, 15)
     .setValue(count + 1);
 
   const next = new Date();
@@ -115,20 +126,14 @@ if (threadId) {
     );
 
   if (count == 2)
-    sheet.getRange(row,16).clearContent();
+    sheet.getRange(row, 16).clearContent();
   else
-    sheet.getRange(row,16).setValue(next);
+    sheet.getRange(row, 16).setValue(next);
 
   writeLog(
-
     LOGLEVEL.INFO,
-
     "Followup",
-
     "FOLLOWUP_" + (count + 1),
-
     lead[4]
-
   );
-
 }
